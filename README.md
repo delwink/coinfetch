@@ -18,7 +18,7 @@ Example: <code>$ coinfetch doge btc</code>
 The above example will return the amount of Bitcoin that can currently be bought with one
 Dogecoin. 
 
-If the coins are reversed (e.g. <code>coinfetch btc doge<code> ), the amount of Dogecoin
+If the coins are reversed (e.g. <code>$ coinfetch btc doge</code> ), the amount of Dogecoin
 that can currently be bought with one Bitcoin will be returned.
 
 Installation
