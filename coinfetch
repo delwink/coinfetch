@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+
+# Wow such python
+# Feel free to modify
+# So generous: DGSWzqyofHC6YDSA34hwVQpWGQHnzJm1sk
+#
+# Values retrieved are in the form 
+#		1 <coin_a> = <printed output> <coin_b>
+#
+# Remember to make this file executable ( "$chmod +x ./coinfetch" )
+
+import requests, sys
+
+def coinfetch(coin_a, coin_b):
+	"""
+	Fetch a coin pair
+	"""
+	url = 'http://data.bter.com/api/1/tickers'
+	r = requests.get(url)
+	try:
+		pair = coin_a+"_"+coin_b
+		out = float(r.json()[pair]['avg'])
+	except:
+		pair = coin_b+"_"+coin_a
+		out = float((r.json()[pair]['avg']))**-1
+	return out
+
+try:
+# To change precision of output, replace the 8 with the desired number of decimal places.
+	print ("%.8f" %coinfetch(sys.argv[1], sys.argv[2]))	
+except KeyError:
+	exit("Coinpair not found.")
+except IndexError:
+	exit("Enter an argument!!")
