@@ -1,0 +1,16 @@
+Satisfying dependencies
+-----------------------
+
+This script requires Python 3 and the Python 3 Requests library.
+
+You can download Python at: http://www.python.org
+
+You can download Python Requests at: http://python-requests.org
+
+Installing the scripts
+----------------------
+
+Installing dogefetch or coinfetch can be done automatically with make.
+
+# make install
+
