@@ -22,6 +22,13 @@ with one Dogecoin.
 If the coins are reversed (e.g. `$ coinfetch btc doge`), the amount of Dogecoin
 that can currently be bought with one Bitcoin will be returned.
 
+As of version 2.x, you may optionally add a third argument before the first
+currency in order to multiply that amount.
+
+Example: `$ coinfetch 1000 doge usd`
+
+The above example will return the value of 1000 DOGE in USD.
+
 Licensing
 ---------
 
