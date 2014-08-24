@@ -7,30 +7,39 @@
 # So generous: DGSWzqyofHC6YDSA34hwVQpWGQHnzJm1sk
 #
 # Values retrieved are in the form 
-#		1 <coin_a> = <printed output> <coin_b>
+#       1 <coin_a> = <printed output> <coin_b>
 #
 # Remember to make this file executable ( "$chmod +x ./coinfetch" )
 
 import requests, sys
 
-def coinfetch(coin_a, coin_b):
-	"""
-	Fetch a coin pair
-	"""
-	url = 'http://data.bter.com/api/1/tickers'
-	r = requests.get(url)
-	try:
-		pair = coin_a+"_"+coin_b
-		out = float(r.json()[pair]['avg'])
-	except:
-		pair = coin_b+"_"+coin_a
-		out = float((r.json()[pair]['avg']))**-1
-	return out
+def coinfetch(coin_a, coin_b, amt):
+    """
+    Fetch a coin pair
+    """
+    url = 'http://data.bter.com/api/1/tickers'
+    r = requests.get(url)
+    try:
+        pair = coin_a+"_"+coin_b
+        out = float(r.json()[pair]['avg']) * amt
+    except:
+        pair = coin_b+"_"+coin_a
+        out = float((r.json()[pair]['avg']))**-1 * amt
+    return out
 
 try:
-# To change precision of output, replace the 8 with the desired number of decimal places.
-	print ("%.8f" %coinfetch(sys.argv[1], sys.argv[2]))	
+    argc = len(sys.argv)
+    if argc == 4:
+        amt = float(sys.argv[1])
+        print ("%.8f" %coinfetch(sys.argv[2], sys.argv[3], amt))
+    else:
+        print ("%.8f" %coinfetch(sys.argv[1], sys.argv[2], 1.0))
+except ValueError:
+    print ('"' + sys.argv[1] + "\" is not a valid number.")
+    exit(3)
 except KeyError:
-	exit("Coinpair not found.")
+    print ("Currency pair was not found.")
+    exit(2)
 except IndexError:
-	exit("Enter an argument!!")
+    print ("USAGE: " + sys.argv[0] + " [amount] <from> <to>")
+    exit(1)
