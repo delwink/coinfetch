@@ -1,4 +1,4 @@
-dogefetch
+coinfetch
 =========
 
 See [INSTALL](INSTALL) for installation instructions.
