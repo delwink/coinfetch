@@ -1,5 +1,23 @@
 #!/usr/bin/python3
 
+# Delwink Software
+# coinfetch
+#
+# This script is free software, released under the terms of the MIT license.
+# See LICENSE for more information.
+#
+# This release of coinfetch is maintained by Delwink Software.
+#
+# Feature requests: sales@delwink.com
+# Links to PGP keys available at http://delwink.com/contact.html
+#
+# Donate to Delwink!
+# BTC  - 1HLpZxHSMbaq2pCeYRtYMsSYMFtsuSDknX
+# LTC  - LYzCqLD5nrf1hnRe5uKpeThDDXd3B3TawC
+# DOGE - DSiVFYZmMCykf5ALqBNwiah8h1zKqT4sZo
+
+##### ORIGINAL DEVELOPER COMMENTS #####
+
 # Created and maintained by Michael Smith (2014)
 # And licensed under the MIT license 
 # 
@@ -10,6 +28,8 @@
 #       1 <coin_a> = <printed output> <coin_b>
 #
 # Remember to make this file executable ( "$chmod +x ./coinfetch" )
+
+##### END ORIGINAL DEVELOPER COMMENTS #####
 
 import requests, sys
 
