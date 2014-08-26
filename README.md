@@ -29,6 +29,18 @@ Example: `$ coinfetch 1000 doge usd`
 
 The above example will return the value of 1000 DOGE in USD.
 
+Known Bugs
+----------
+
+As of version 2.1, `coinfetch`'s measures to avoid `0.0` returns and
+`Currency pair not found` errors can return inconsistent values. This is a
+reality of the system that cannot be avoided. For example, getting the price for
+LTC to DOGE will return a reasonable amount. However, getting the price for that
+many DOGE to USD does not equal the price of 1 LTC in USD. This is a compromise
+in exchange for fewer failures. These attempts to outsmart the API can create
+erroneous responses, but we prefer to have rough values than no values. We may
+consider adding an option to fail instead in the future (or if sponsored).
+
 Licensing
 ---------
 
