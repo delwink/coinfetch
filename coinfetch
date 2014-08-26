@@ -39,12 +39,34 @@ def coinfetch(coin_a, coin_b, amt):
     """
     url = 'http://data.bter.com/api/1/tickers'
     r = requests.get(url)
+    out = 0.0
     try:
         pair = coin_a+"_"+coin_b
         out = float(r.json()[pair]['avg']) * amt
-    except:
-        pair = coin_b+"_"+coin_a
-        out = float((r.json()[pair]['avg']))**-1 * amt
+    except KeyError:
+        try:
+            pair = coin_b+"_"+coin_a
+            out = float((r.json()[pair]['avg']))**-1 * amt
+        except KeyError:
+            pair = coin_a+"_btc"
+            out = float(r.json()[pair]['avg'])
+            pair = "btc_"+coin_b
+            try:
+                out *= float(r.json()[pair]['avg'])
+            except KeyError:
+                pair = coin_b+"_btc"
+                out *= float(r.json()[pair]['avg'])**-1
+            out *= amt
+    if out == 0.0:
+        pair = coin_a+"_btc"
+        out = float(r.json()[pair]['avg'])
+        pair = "btc_"+coin_b
+        try:
+            out *= float(r.json()[pair]['avg'])
+        except KeyError:
+            pair = coin_b+"_btc"
+            out *= float(r.json()[pair]['avg'])**-1
+        out *= amt
     return out
 
 try:
@@ -54,6 +76,9 @@ try:
         print ("%.8f" %coinfetch(sys.argv[2], sys.argv[3], amt))
     else:
         print ("%.8f" %coinfetch(sys.argv[1], sys.argv[2], 1.0))
+#except UnboundLocalError:
+#    print ("Currency pair was not found.")
+#    exit(4)
 except ValueError:
     print ('"' + sys.argv[1] + "\" is not a valid number.")
     exit(3)
