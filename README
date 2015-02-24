@@ -1,0 +1,48 @@
+coinfetch
+=========
+
+See [INSTALL](INSTALL) for installation instructions.
+
+Using `coinfetch`
+-----------------
+
+coinfetch takes two arguments from the command line, and returns a conversion 
+factor.
+
+The arguments are the three-letter identifiers of various currencies.
+
+Many (but not all) pairs of coins can be used.
+
+Example: `$ coinfetch usd btc`
+
+The above example will return the amount of Bitcoin that can currently be
+bought with one United States dollar.
+
+If the coins are reversed (e.g. `$ coinfetch btc usd`), the amount of United
+States dollars that can currently be bought with one Bitcoin will be returned.
+
+As of version 2.x, you may optionally add a third argument before the first
+currency in order to multiply that amount.
+
+Example: `$ coinfetch 1000 ltc usd`
+
+The above example will return the value of 1000 LTC in USD.
+
+Limitations
+-----------
+
+As of version 3.x, this script now uses the BTC-E API instead of BTer, on
+account of BTer's API server being unreliable. The sacrifice made in this
+change is slower performance when the first currency pair isn't found and also
+lack of support for Dogecoin (which we at Delwink do love so much).
+
+If you find a way to get around these, please [let us know][1]!
+
+Licensing
+---------
+
+This script is [free software](http://gnu.org/philosophy/free-sw.html),
+licensed under the terms of the MIT license. See [LICENSE](LICENSE) for more
+information.
+
+[1]: mailto:contribute@delwink.com

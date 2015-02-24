@@ -1,2 +1,5 @@
 # packaging files
 pkg/
+dist/
+coinfetch.egg-info/
+build/

@@ -1,4 +1,4 @@
-Satisfying dependencies
+Satisfying Dependencies
 -----------------------
 
 This script requires Python 3 and the Python 3 Requests library.
@@ -7,28 +7,11 @@ You can download Python at: http://www.python.org
 
 You can download Python Requests at: http://python-requests.org
 
-Installing the script
+Installing the Script
 ---------------------
 
-## GNU or other UNIX ##
+This script can be installed using the Python build process.
 
-Installing coinfetch can be done automatically with GNU make.
+    # python3 setup.py install
 
-# make install
-
-## Microsoft Windows ##
-
-NOTICE: Delwink Software does not officially support Microsoft Windows due to 
-the lack of concern for freedom expressed by its developer. We recommend the
-using one of the many GNU+Linux distributions instead. You can find some
-officially-recommended ones at http://gnu.org/distros
-
-You can install coinfetch by placing it in an installation directory then adding
-that directory to the PATH environment variable, like so:
-
-Place coinfetch in a memorable place like C:\Program Files\Delwink\coinfetch
-
-Add that place to the executable path with the following command. Be sure to
-use the directory you chose:
-
-> set PATH=%PATH%;"C:\Program Files\Delwink\coinfetch"
+You must have the Python 3 setuptools module installed on your system.
