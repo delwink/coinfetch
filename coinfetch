@@ -42,7 +42,6 @@ def coinfetch(coin_a, coin_b, amt):
     pair = '%s_%s' %(coin_a, coin_b)
 
     r = get(url + pair)
-    out = 0.0
 
     try:
         out = float(r.json()[pair]['avg']) * amt
