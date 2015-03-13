@@ -28,21 +28,19 @@ Example: `$ coinfetch 1000 ltc usd`
 
 The above example will return the value of 1000 LTC in USD.
 
-Limitations
------------
+As of version 4.x, you will be able to use `coinfetch` with many ticker APIs
+with the `-a` option.
 
-As of version 3.x, this script now uses the BTC-E API instead of BTer, on
-account of BTer's API server being unreliable. The sacrifice made in this
-change is slower performance when the first currency pair isn't found and also
-lack of support for Dogecoin (which we at Delwink do love so much).
+Example: `$ coinfetch -a bter usd doge`
 
-If you find a way to get around these, please [let us know][1]!
+The above example will be the same as calling `coinfetch usd doge` in version
+2.x, which used the BTer API. The default API is BTC-E.
 
 Licensing
 ---------
 
 This script is [free software](http://gnu.org/philosophy/free-sw.html),
-licensed under the terms of the MIT license. See [LICENSE](LICENSE) for more
-information.
+licensed under the terms of version 3 of the GNU Affero General Public
+License. See [COPYING](COPYING) for more information.
 
 [1]: mailto:contribute@delwink.com

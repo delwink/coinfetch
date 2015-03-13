@@ -3,3 +3,4 @@ pkg/
 dist/
 coinfetch.egg-info/
 build/
+__pycache__/

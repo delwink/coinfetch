@@ -20,6 +20,6 @@ from sys import argv
 from coinfetchapi import *
 
 try:
-    coinfetch(argv[1:])
+    coinfetch(['--api=bter'] + argv[1:])
 except UsageException as e:
     print_usage(e)
