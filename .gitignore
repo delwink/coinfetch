@@ -4,3 +4,4 @@ dist/
 coinfetch.egg-info/
 build/
 __pycache__/
+description-pak
