@@ -36,6 +36,22 @@ Example: `$ coinfetch -a bter usd doge`
 The above example will be the same as calling `coinfetch usd doge` in version
 2.x, which used the BTer API. The default API is BTC-E.
 
+Note
+----
+
+BTer's ticker (as of this update) does not seem to be updating often enough to
+have accurate data. Version 4.1.x adds the CryptoCoin Charts (ccc) API which
+appears to have accurate data. This API is slightly more limited (it doesn't
+have as many values, and the formatting does not follow the one used by BTer
+and BTC-E; however, it does have support for Dogecoin which is favored by
+Delwink. If you want a more accurate calculation for Dogecoin and other
+altcoins, we recommend the ccc API.
+
+Note that the ccc API is new to coinfetch and does not match the formula
+expected by the original code. Expect some bugs when using it: the numbers
+should be accurate, but it may error out where the other APIs do not. Please
+report bugs to [Delwink's bug tracking system][2].
+
 Licensing
 ---------
 
@@ -44,3 +60,4 @@ licensed under the terms of version 3 of the GNU Affero General Public
 License. See [COPYING](COPYING) for more information.
 
 [1]: mailto:contribute@delwink.com
+[2]: http://bugs.delwink.com/index.php?project=4&do=index

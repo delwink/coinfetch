@@ -36,6 +36,7 @@ OPTIONS:
 Supported APIs:
     btce                BTC-E, the default API.
     bter                BTer, the legacy API.
+    ccc                 CryptoCoin Charts.
 
 Kinds:
     avg                 Average rate, the default.
@@ -60,6 +61,8 @@ def _keypair(api, r, pair):
         return r.json()[pair]
     elif api == 'bter':
         return r.json()
+    elif api == 'ccc':
+        return r.json()
 
     raise ValueError('API %s not supported.' %api)
 
@@ -68,6 +71,12 @@ def get_rate(coin_a, coin_b, amt, api, kind):
         url = 'https://btc-e.com/api/3/ticker/'
     elif api == 'bter':
         url = 'http://data.bter.com/api/1/ticker/'
+    elif api == 'ccc':
+        url = 'http://api.cryptocoincharts.info/tradingPair/'
+        if kind == 'avg':
+            kind = 'price'
+        else:
+            raise ValueError('kind %s not supported with API %s' %(kind, api))
     else:
         raise ValueError('API %s not supported.' %api)
 
@@ -78,12 +87,15 @@ def get_rate(coin_a, coin_b, amt, api, kind):
     try:
         res = _keypair(api, r, pair)
         return float(res[kind]) * amt
-    except KeyError:
-        pair = '%s_%s' %(coin_b, coin_a)
-        r = get(url + pair)
+    except (KeyError, TypeError):
+        try:
+            pair = '%s_%s' %(coin_b, coin_a)
+            r = get(url + pair)
 
-        res = _keypair(api, r, pair)
-        return (float(res[kind]) ** -1) * amt
+            res = _keypair(api, r, pair)
+            return (float(res[kind]) ** -1) * amt
+        except TypeError as e:
+            raise ValueError('currency pair not found: %s' %str(e))
 
 def coinfetch(args):
     api = 'btce'
@@ -114,9 +126,9 @@ Written by David McMackins II''')
         print('%.8f' %get_rate(args[bump], args[1+bump], amt, api, kind))
     except IndexError:
         raise UsageException(1)
-    except KeyError:
-        print('coinfetch: currency pair not found', file=stderr)
+    except KeyError as e:
+        print('coinfetch: currency pair not found: %s' %str(e), file=stderr)
         exit(2)
-    except ValueError:
-        print('coinfetch: "%s" is not a valid number' %args[0], file=stderr)
+    except ValueError as e:
+        print('coinfetch: %s' %str(e), file=stderr)
         exit(3)
