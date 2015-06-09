@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'coinfetch',
-    version = '4.1.0',
+    version = '4.1.1',
     scripts = ['coinfetch', 'bterfetch', 'cccfetch'],
     py_modules = ['coinfetchapi'],
 

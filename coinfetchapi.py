@@ -57,11 +57,9 @@ def print_usage(e):
     exit(int(str(e)))
 
 def _keypair(api, r, pair):
-    if api == 'btce':
+    if api in ('btce'):
         return r.json()[pair]
-    elif api == 'bter':
-        return r.json()
-    elif api == 'ccc':
+    elif api in ('bter', 'ccc'):
         return r.json()
 
     raise ValueError('API %s not supported.' %api)
@@ -106,7 +104,7 @@ def coinfetch(args):
         if key in ('-h', '--help'):
             raise UsageException(0)
         elif key in ('-v', '--version'):
-            print('''coinfetch 4.0.0
+            print('''coinfetch 4.1.1
 Copyright (C) 2015 Delwink, LLC
 License AGPLv3: GNU AGPL version 3 only <http://gnu.org/licenses/agpl.html>.
 This is free software: you are free to change and redistribute it.
