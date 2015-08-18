@@ -20,6 +20,8 @@ from requests import get
 from getopt import getopt
 from sys import stderr
 
+__version__ = '4.1.1'
+
 USAGE_INFO = '''
 USAGE: coinfetch [OPTIONS] [AMOUNT] FROM TO
 

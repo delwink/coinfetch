@@ -1,8 +1,14 @@
+import re
 from setuptools import setup
+
+version = ''
+with open('coinfetchapi.py', 'r') as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                        f.read(), re.MULTILINE).group(1)
 
 setup(
     name = 'coinfetch',
-    version = '4.1.1',
+    version = version,
     scripts = ['coinfetch', 'bterfetch', 'cccfetch'],
     py_modules = ['coinfetchapi'],
 
