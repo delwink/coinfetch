@@ -39,6 +39,13 @@ The above example will be the same as calling `coinfetch usd doge` in version
 Note
 ----
 
+Version 5.x is currently in development. This will change the program from a
+static API/CLI to a plugin-based system with an API for external applications
+as well as the familiar CLI. The advantage of this new design is to allow
+hackers to add new APIs to Coinfetch without having to submit upstream
+requests. Officially-supported ticker APIs will stay in this repository to keep
+things easy for existing Coinfetch users.
+
 BTer's ticker (as of this update) does not seem to be updating often enough to
 have accurate data. Version 4.1.x adds the CryptoCoin Charts (ccc) API which
 appears to have accurate data. This API is slightly more limited (it doesn't
