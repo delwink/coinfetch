@@ -15,6 +15,8 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
+from os import listdir
+from os.path import isdir
 from requests import get
 
 __version__ = '5.0.0'
@@ -83,6 +85,16 @@ def get_registered_tickers():
 #  @return The Ticker object specified by 'key'.
 def get_ticker(key):
     return _tickers[key][_INDEX['value']]
+
+## Loads a plugin or directory of plugins.
+#  @param path Path to the plugin file or a directory containing plugins.
+def load(path):
+    if isdir(path):
+        for f in listdir:
+            load(join(path, f))
+    else:
+        with open(path) as plugin:
+            exec(plugin.read(), globals(), locals())
 
 ## Registers a new ticker API.
 #  @param name Name of this ticker.
