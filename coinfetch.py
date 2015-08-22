@@ -16,7 +16,7 @@
 ##
 
 from os import listdir
-from os.path import isdir
+from os.path import dirname, exists, expanduser, isdir, join, realpath
 from requests import get
 
 __version__ = '5.0.0'
@@ -68,7 +68,18 @@ _INDEX = {
     'value': 1
 }
 
+_PATH = [
+    '/usr/share/coinfetch',
+    dirname(realpath(__file__)),
+    join(expanduser('~'), '.coinfetch')
+]
+
 _tickers = {}
+
+## Adds a directory to the configuration path.
+#  @param path The directory to be added.
+def add_to_path(path):
+    _PATH.append(path)
 
 ## Gets the registered tickers and their descriptions.
 #  @return A list of tuples containing the ticker name and description.
@@ -91,10 +102,18 @@ def get_ticker(key):
 def load(path):
     if isdir(path):
         for f in listdir:
-            load(join(path, f))
+            if f.endswith('.py'):
+                load(join(path, f))
     else:
         with open(path) as plugin:
             exec(plugin.read(), globals(), locals())
+
+## Loads all default plugins.
+def load_default_plugins():
+    for d in _PATH:
+        plugindir = join(d, 'plugins')
+        if exists(plugindir):
+            load(plugindir)
 
 ## Registers a new ticker API.
 #  @param name Name of this ticker.
