@@ -97,6 +97,13 @@ def get_registered_tickers():
 def get_ticker(key):
     return _tickers[key][_INDEX['value']]
 
+## Registers a new ticker API.
+#  @param name Name of this ticker.
+#  @param description A brief description of this ticker.
+#  @param obj An instance of the ticker's implementation class.
+def register_ticker(name, description, obj):
+    _tickers[name] = (description, obj)
+
 ## Loads a plugin or directory of plugins.
 #  @param path Path to the plugin file or a directory containing plugins.
 def load(path):
@@ -115,9 +122,7 @@ def load_default_plugins():
         if exists(plugindir):
             load(plugindir)
 
-## Registers a new ticker API.
-#  @param name Name of this ticker.
-#  @param description A brief description of this ticker.
-#  @param obj An instance of the ticker's implementation class.
-def register_ticker(name, description, obj):
-    _tickers[name] = (description, obj)
+## Clears the list of loaded plugins.
+def unload_plugins():
+    global _tickers
+    _tickers = {}
