@@ -17,5 +17,5 @@
 
 from coinfetch import register_ticker, Ticker
 
-register_ticker('btc-e', 'The BTC-E ticker',
+register_ticker('btce', 'The BTC-E ticker',
                 Ticker('https://btc-e.com/api/3/ticker/'))
