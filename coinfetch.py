@@ -34,33 +34,33 @@ class Ticker():
     #  @param a The first currency.
     #  @param b The second currency.
     #  @return A pair string to be used in the request URL.
-    def get_pair(a, b):
+    def get_pair(self, a, b):
         return '{}_{}'.format(a, b)
 
     ## Extracts the exchange rate data from the server response.
     #  @param response Original response from the ticker server.
     #  @param The coin pair as a list/tuple.
     #  @return The data for the selected pair.
-    def get_pair_data(response, pair):
+    def get_pair_data(self, response, pair):
         return response.json()[self.get_pair(pair[0], pair[1])]
 
     ## Calculates the exchange rate between two currencies.
     #  @param a The first currency.
     #  @param b The second currency.
     #  @param amt The number quantity of 'a' currency.
-    def get_rate(a, b, amt=1):
+    def get_rate(self, a, b, amt=1):
         r = get(self.path + self.get_pair(a, b))
 
         try:
-            res = get_pair_data(r, (a, b))
+            res = self.get_pair_data(r, (a, b))
             return float(res[self.kind]) * amt
         except (KeyError, TypeError):
             try:
                 r = get(self.path + self.get_pair(b, a)) # reverse order
 
-                res = get_pair_data(r, (a, b))
+                res = self.get_pair_data(r, (a, b))
                 return (float(res[self.kind]) ** -1) * amt
-            except TypeError as e:
+            except (KeyError, TypeError) as e:
                 raise ValueError(str(e)) # currency pair not found
 
 _INDEX = {
@@ -108,7 +108,7 @@ def register_ticker(name, description, obj):
 #  @param path Path to the plugin file or a directory containing plugins.
 def load(path):
     if isdir(path):
-        for f in listdir:
+        for f in listdir(path):
             if f.endswith('.py'):
                 load(join(path, f))
     else:
