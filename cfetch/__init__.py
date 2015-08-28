@@ -59,7 +59,7 @@ class Ticker():
             try:
                 r = get(self.path + self.get_pair(b, a)) # reverse order
 
-                res = self.get_pair_data(r, (a, b))
+                res = self.get_pair_data(r, (b, a))
                 return (float(res[self.kind]) ** -1) * amt
             except (KeyError, TypeError) as e:
                 raise ValueError(str(e)) # currency pair not found
