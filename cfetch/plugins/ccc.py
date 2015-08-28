@@ -15,7 +15,7 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-from coinfetch import register_ticker, Ticker
+from cfetch import register_ticker, Ticker
 
 class CccTicker(Ticker):
     def __init__(self, path, kind='price'):

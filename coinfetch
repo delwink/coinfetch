@@ -16,10 +16,53 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-from sys import argv
-from coinfetchapi import *
+from argparse import Action, ArgumentParser
+from cfetch import __version__, get_ticker, get_registered_tickers
+from cfetch import load_default_plugins
+
+__title__ = 'coinfetch'
+__author__ = 'David McMackins II'
+__version_info__ = '''{} {}
+Copyright (C) 2015 Delwink, LLC
+License AGPLv3: GNU AGPL version 3 only <http://gnu.org/licenses/agpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by {}'''.format(__title__, __version__, __author__)
+
+class VersionAction(Action):
+    def __call__(self, parser, values, namespace, option_string):
+        print(__version_info__)
+        exit(0)
+
+cli = ArgumentParser(__title__)
+
+cli.add_argument('-a', '--api', default='btce', help='uses an API by name')
+cli.add_argument('-k', '--kind', help='specifies which kind of rate to get')
+cli.add_argument('-v', '--version', action=VersionAction,
+                 help='show version information and exit', nargs=0)
+
+cli.add_argument('amount', default=1, help='amount of the original currency',
+                 nargs='?', type=int)
+cli.add_argument('src', help='currency from which to convert')
+cli.add_argument('dest', help='currency to which to convert')
+
+args = cli.parse_args()
+
+load_default_plugins()
 
 try:
-    coinfetch(argv[1:])
-except UsageException as e:
-    print_usage(e)
+    print('%.8f' %get_ticker(args.api).get_rate(args.src, args.dest, args.amount))
+except KeyError:
+    print('The API {} is not available. Currently installed APIs:'.format(args.api))
+
+    tickers = get_registered_tickers()
+    tickers.sort()
+    for api, desc in tickers:
+        print(api + '\t- ' + desc)
+
+    exit(10)
+except ValueError:
+    pair = '/'.join([args.src, args.dest])
+    print('The pair {} was not found using the {} API.'.format(pair, args.api))
+    exit (11)

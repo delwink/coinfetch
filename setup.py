@@ -1,22 +1,29 @@
 import re
+from os.path import dirname, realpath
 from setuptools import setup
 
 version = ''
-with open('coinfetchapi.py', 'r') as f:
+with open('cfetch/__init__.py', 'r') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         f.read(), re.MULTILINE).group(1)
 
 setup(
     name = 'coinfetch',
     version = version,
-    scripts = ['coinfetch', 'bterfetch', 'cccfetch'],
-    py_modules = ['coinfetchapi'],
+    scripts = ['coinfetch'],
+    packages = ['cfetch'],
+
+    package_dir = {
+        'cfetch': 'cfetch'
+    },
 
     install_requires = ['requests'],
 
     package_data = {
-        '': ['README']
+        '': ['README'],
+        'cfetch': ['plugins/*.py']
     },
+    include_package_data=True,
 
     author = 'Delwink, LLC',
     author_email = 'support@delwink.com',

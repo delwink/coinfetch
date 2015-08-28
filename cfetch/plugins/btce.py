@@ -1,6 +1,5 @@
-#! /usr/bin/env python3
 ##
-##  coinfetch - Cryptocurrency price fetcher
+##  coinfetch-api-btce - BTC-E API plugin for coinfetch
 ##  Copyright (C) 2015 Delwink, LLC
 ##
 ##  This program is free software: you can redistribute it and/or modify
@@ -16,10 +15,7 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-from sys import argv
-from coinfetchapi import *
+from cfetch import register_ticker, Ticker
 
-try:
-    coinfetch(['--api=bter'] + argv[1:])
-except UsageException as e:
-    print_usage(e)
+register_ticker('btce', 'The BTC-E ticker',
+                Ticker('https://btc-e.com/api/3/ticker/'))
