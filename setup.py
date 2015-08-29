@@ -1,6 +1,10 @@
 import re
 from os.path import dirname, realpath
-from setuptools import setup
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 version = ''
 with open('cfetch/__init__.py', 'r') as f:
