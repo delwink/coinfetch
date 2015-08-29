@@ -58,6 +58,11 @@ logic. No functions will be executed by `coinfetch` directly. You must execute
 them at the global level if needed. See the default plugins in `cfetch/plugins`
 for examples of simple working plugins.
 
+**CAUTION**: To allow plugin developers to use unique solutions when
+  implementing their plugins, plugin code is not checked for sanity or security
+  before it is executed. Only install plugins from developers you trust to not
+  damage or corrupt system or personal files or compromise personal data.
+
 Note
 ----
 
