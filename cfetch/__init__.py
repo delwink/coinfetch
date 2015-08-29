@@ -72,6 +72,7 @@ _INDEX = {
 _PATH = [
     dirname(realpath(__file__)),
     '/usr/share/coinfetch',
+    '/usr/local/share/coinfetch',
     join(expanduser('~'), '.coinfetch')
 ]
 
