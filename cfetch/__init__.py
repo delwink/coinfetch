@@ -58,7 +58,6 @@ class Ticker():
         except (KeyError, TypeError):
             try:
                 r = get(self.path + self.get_pair(b, a)) # reverse order
-
                 res = self.get_pair_data(r, (b, a))
                 return (float(res[self.kind]) ** -1) * amt
             except (KeyError, TypeError) as e:
