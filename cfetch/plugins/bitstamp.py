@@ -37,5 +37,5 @@ class BitstampTicker(Ticker):
         else:
             raise ValueError('{}/{}'.format(a, b))
 
-register_ticker('bs', 'The Bitstamp ticker',
+register_ticker('bs', 'The Bitstamp ticker (built-in)',
                 BitstampTicker('https://www.bitstamp.net/api/ticker/'))

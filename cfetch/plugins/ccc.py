@@ -24,5 +24,5 @@ class CccTicker(Ticker):
     def get_pair_data(self, response, pair=None):
         return response.json()
 
-register_ticker('ccc', 'The CryptoCoin Charts ticker',
+register_ticker('ccc', 'The CryptoCoin Charts ticker (built-in)',
                 CccTicker('http://api.cryptocoincharts.info/tradingPair/'))

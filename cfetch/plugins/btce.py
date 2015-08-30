@@ -17,5 +17,5 @@
 
 from cfetch import register_ticker, Ticker
 
-register_ticker('btce', 'The BTC-E ticker',
+register_ticker('btce', 'The BTC-E ticker (built-in) (default)',
                 Ticker('https://btc-e.com/api/3/ticker/'))

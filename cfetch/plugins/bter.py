@@ -21,5 +21,5 @@ class BterTicker(Ticker):
     def get_pair_data(self, response, pair=None):
         return response.json()
 
-register_ticker('bter', 'The BTer ticker',
+register_ticker('bter', 'The BTer ticker (built-in)',
                 BterTicker('http://data.bter.com/api/1/ticker/'))
