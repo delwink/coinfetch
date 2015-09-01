@@ -42,8 +42,16 @@ class Ticker():
     #  @param response Original response from the ticker server.
     #  @param The coin pair as a list/tuple.
     #  @return The data for the selected pair.
-    def get_pair_data(self, response, pair):
-        return response.json()[self.get_pair(pair[0], pair[1])]
+    def get_pair_data(self, response, pair=None):
+        if type(pair) in (list, tuple):
+            return response.json()[self.get_pair(pair[0], pair[1])]
+        else:
+            raise TypeError('pair cannot be {}'.format(type(pair)))
+
+    def _get_single_rate(self, a, b, amt, power):
+        r = get(self.path + self.get_pair(a, b))
+        res = self.get_pair_data(r, (a, b))
+        return (float(res[self.kind]) ** power) * amt
 
     ## Calculates the exchange rate between two currencies.
     #  @param a The first currency.
@@ -51,16 +59,11 @@ class Ticker():
     #  @param amt The number quantity of 'a' currency.
     #  @return The exchange rate between 'a' and 'b' currencies.
     def get_rate(self, a, b, amt=1):
-        r = get(self.path + self.get_pair(a, b))
-
         try:
-            res = self.get_pair_data(r, (a, b))
-            return float(res[self.kind]) * amt
+            return self._get_single_rate(a, b, amt, 1)
         except (KeyError, TypeError):
             try:
-                r = get(self.path + self.get_pair(b, a)) # reverse order
-                res = self.get_pair_data(r, (b, a))
-                return (float(res[self.kind]) ** -1) * amt
+                return self._get_single_rate(b, a, amt, -1)
             except (KeyError, TypeError) as e:
                 raise ValueError(str(e)) # currency pair not found
 

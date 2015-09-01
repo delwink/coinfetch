@@ -22,17 +22,17 @@ class BitstampTicker(Ticker):
     def __init__(self, path, kind='vwap'):
         super().__init__(path, kind)
 
-    def get_pair_data(self, response, pair):
+    def get_pair_data(self, response):
         return response.json()
 
     def get_rate(self, a, b, amt=1):
         if a == 'btc' and b == 'usd':
             r = get(self.path)
-            res = self.get_pair_data(r, (a, b))
+            res = self.get_pair_data(r)
             return float(res[self.kind]) * amt
         elif a == 'usd' and b == 'btc':
             r = get(self.path)
-            res = self.get_pair_data(r, (a, b))
+            res = self.get_pair_data(r)
             return (float(res[self.kind]) ** -1) * amt
         else:
             raise ValueError('{}/{}'.format(a, b))
