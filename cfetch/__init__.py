@@ -49,6 +49,7 @@ class Ticker():
     #  @param a The first currency.
     #  @param b The second currency.
     #  @param amt The number quantity of 'a' currency.
+    #  @return The exchange rate between 'a' and 'b' currencies.
     def get_rate(self, a, b, amt=1):
         r = get(self.path + self.get_pair(a, b))
 
