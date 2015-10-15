@@ -58,7 +58,7 @@ cli.add_argument('-v', '--version', action=VersionAction,
                  help='show version information and exit', nargs=0)
 
 cli.add_argument('amount', default=1, help='amount of the original currency',
-                 nargs='?', type=int)
+                 nargs='?', type=float)
 cli.add_argument('src', help='currency from which to convert')
 cli.add_argument('dest', help='currency to which to convert')
 

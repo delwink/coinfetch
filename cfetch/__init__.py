@@ -20,7 +20,7 @@ from os import listdir
 from os.path import basename, dirname, exists, expanduser, isdir, join, realpath
 from requests import get
 
-__version__ = '5.0.0'
+__version__ = '5.0.1'
 
 ## A cryptocurrency exchange rate ticker.
 class Ticker():
