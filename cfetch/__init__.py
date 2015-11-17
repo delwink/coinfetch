@@ -17,7 +17,8 @@
 
 from importlib.machinery import SourceFileLoader
 from os import listdir
-from os.path import basename, dirname, exists, expanduser, isdir, join, realpath
+from os.path import basename, dirname, exists, expanduser, isdir, join
+from os.path import realpath
 from requests import get
 
 __version__ = '5.0.1'

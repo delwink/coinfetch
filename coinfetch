@@ -74,4 +74,4 @@ except KeyError:
 except ValueError:
     pair = '/'.join([args.src, args.dest])
     print('The pair {} was not found using the {} API.'.format(pair, args.api))
-    exit (11)
+    exit(11)
