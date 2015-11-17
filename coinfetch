@@ -17,8 +17,11 @@
 ##
 
 from argparse import Action, ArgumentParser
+from configparser import ConfigParser
 from cfetch import __version__, get_ticker, get_registered_tickers
 from cfetch import load_default_plugins
+from os.path import expanduser, join, exists
+from os import makedirs
 
 __title__ = 'coinfetch'
 __author__ = 'David McMackins II'
@@ -30,15 +33,39 @@ There is NO WARRANTY, to the extent permitted by law.
 
 Written by {}'''.format(__title__, __version__, __author__)
 
-def list_sorted_apis():
-    tickers = get_registered_tickers()
-    tickers.sort()
-    for api, desc in tickers:
-        print(api + '\t- ' + desc)
+CONFIG_DIR = join(expanduser('~'), '.coinfetch')
+CONFIG_PATH = join(CONFIG_DIR, 'config.ini')
+config = ConfigParser()
+
+if not exists(CONFIG_PATH):
+    if not exists(CONFIG_DIR):
+        makedirs(CONFIG_DIR)
+
+    config['coinfetch'] = {}
+    config['coinfetch']['api'] = 'btce'
+    with open(CONFIG_PATH, 'w') as f:
+        config.write(f)
+else:
+    config.read(CONFIG_PATH)
+
+default_api = config['coinfetch']['api']
+
+class DefaultApiAction(Action):
+    def __call__(self, parser, values, namespace, option_string):
+        config['coinfetch']['api'] = namespace
+        with open(CONFIG_PATH, 'w') as f:
+            config.write(f)
+        print('Default API set to', namespace)
+        exit(0)
 
 class ListAction(Action):
     def __call__(self, parser, values, namespace, option_string):
-        list_sorted_apis()
+        tickers = get_registered_tickers()
+        tickers.sort()
+        for api, desc in tickers:
+            if api == default_api:
+                desc += ' (default)'
+            print(api + '\t- ' + desc)
         exit(0)
 
 class VersionAction(Action):
@@ -50,10 +77,13 @@ load_default_plugins()
 
 cli = ArgumentParser(__title__)
 
-cli.add_argument('-a', '--api', default='btce', help='uses an API by name')
+cli.add_argument('-a', '--api', default=default_api, help='uses an API by name')
 cli.add_argument('-k', '--kind', help='specifies which kind of rate to get')
 cli.add_argument('-l', '--list-apis', action=ListAction,
                  help='list available APIs and exit', nargs=0)
+cli.add_argument('--set-default', action=DefaultApiAction,
+                 choices=[api for api, desc in get_registered_tickers()],
+                 help='sets the default API and exits')
 cli.add_argument('-v', '--version', action=VersionAction,
                  help='show version information and exit', nargs=0)
 
