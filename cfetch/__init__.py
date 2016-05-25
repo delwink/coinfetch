@@ -21,14 +21,13 @@ from os.path import basename, dirname, exists, expanduser, isdir, join
 from os.path import realpath
 from requests import get
 
-__version__ = '5.1.1'
+__version__ = '5.2.0'
 
 ## A cryptocurrency exchange rate ticker.
 class Ticker():
     ## Constructor for this class.
     #  @param path The URL prefix for this ticker.
-    #  @param kind Which type of exchange rate to fetch.
-    def __init__(self, path):
+    def __init__(self, path, kind=None):
         self.path = path
 
     ## Defines how a currency pair is defined in the request URL.
