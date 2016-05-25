@@ -98,9 +98,19 @@ args = cli.parse_args()
 
 try:
     ticker = get_ticker(args.api)
-    rate = ticker.get_rate(args.src, args.dest, args.amount)
+
+    rate_args = [args.src, args.dest, args.amount]
+    if args.kind:
+        rate_args.append(args.kind)
+
+    rate = ticker.get_rate(*rate_args)
     print(format(rate, '.8f'))
 except ValueError:
+    if args.kind:
+        print('The', args.kind, 'rate is not available with the', args.api,
+              'API.')
+        exit(10)
+
     pair = '/'.join([args.src, args.dest])
-    print('The pair {} was not found using the {} API.'.format(pair, args.api))
+    print('The pair', pair, 'was not found using the', args.api, 'API.')
     exit(11)

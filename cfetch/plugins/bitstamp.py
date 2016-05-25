@@ -1,6 +1,6 @@
 ##
 ##  coinfetch-api-bitstamp - Bitstamp API plugin for coinfetch
-##  Copyright (C) 2015 Delwink, LLC
+##  Copyright (C) 2015-2016 Delwink, LLC
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU Affero General Public License as published by
@@ -19,21 +19,22 @@ from cfetch import register_ticker, Ticker
 from requests import get
 
 class BitstampTicker(Ticker):
-    def __init__(self, path, kind='vwap'):
-        super().__init__(path, kind)
+    def __init__(self, path):
+        super().__init__(path)
 
     def get_pair_data(self, response):
         return response.json()
 
-    def get_rate(self, a, b, amt=1):
+    def get_rate(self, a, b, amt=1, kind='vwap'):
+        r = get(self.path)
+        res = self.get_pair_data(r)
+        if kind not in res:
+            raise ValueError('Kind {} not available'.format(kind))
+
         if a == 'btc' and b == 'usd':
-            r = get(self.path)
-            res = self.get_pair_data(r)
-            return float(res[self.kind]) * amt
+            return float(res[kind]) * amt
         elif a == 'usd' and b == 'btc':
-            r = get(self.path)
-            res = self.get_pair_data(r)
-            return (float(res[self.kind]) ** -1) * amt
+            return (float(res[kind]) ** -1) * amt
         else:
             raise ValueError('{}/{}'.format(a, b))
 

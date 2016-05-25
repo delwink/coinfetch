@@ -1,6 +1,6 @@
 ##
 ##  coinfetch - plugin-based cryptocurrency price converter
-##  Copyright (C) 2015 Delwink, LLC
+##  Copyright (C) 2015-2016 Delwink, LLC
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU Affero General Public License as published by
@@ -28,9 +28,8 @@ class Ticker():
     ## Constructor for this class.
     #  @param path The URL prefix for this ticker.
     #  @param kind Which type of exchange rate to fetch.
-    def __init__(self, path, kind='avg'):
+    def __init__(self, path):
         self.path = path
-        self.kind = kind
 
     ## Defines how a currency pair is defined in the request URL.
     #  @param a The first currency.
@@ -49,22 +48,22 @@ class Ticker():
         else:
             raise TypeError('pair cannot be {}'.format(type(pair)))
 
-    def _get_single_rate(self, a, b, amt, power):
+    def _get_single_rate(self, a, b, amt, power, kind):
         r = get(self.path + self.get_pair(a, b))
         res = self.get_pair_data(r, (a, b))
-        return (float(res[self.kind]) ** power) * amt
+        return (float(res[kind]) ** power) * amt
 
     ## Calculates the exchange rate between two currencies.
     #  @param a The first currency.
     #  @param b The second currency.
     #  @param amt The number quantity of 'a' currency.
     #  @return The exchange rate between 'a' and 'b' currencies.
-    def get_rate(self, a, b, amt=1):
+    def get_rate(self, a, b, amt=1, kind='avg'):
         try:
-            return self._get_single_rate(a, b, amt, 1)
+            return self._get_single_rate(a, b, amt, 1, kind)
         except (KeyError, TypeError):
             try:
-                return self._get_single_rate(b, a, amt, -1)
+                return self._get_single_rate(b, a, amt, -1, kind)
             except (KeyError, TypeError) as e:
                 raise ValueError(str(e)) # currency pair not found
 

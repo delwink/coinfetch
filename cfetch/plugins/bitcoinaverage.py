@@ -1,6 +1,6 @@
 ##
 ##  coinfetch-api-bitcoinaverage - BitcoinAverage API plugin for coinfetch
-##  Copyright (C) 2015 Delwink, LLC
+##  Copyright (C) 2015-2016 Delwink, LLC
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU Affero General Public License as published by
@@ -19,13 +19,13 @@ from cfetch import register_ticker, Ticker
 from requests import get
 
 class BitcoinAverageTicker(Ticker):
-    def __init__(self, path, kind='24h_avg'):
-        super().__init__(path, kind)
+    def __init__(self, path):
+        super().__init__(path)
 
     def get_pair_data(self, response):
         return response.json()
 
-    def get_rate(self, a, b, amt=1):
+    def get_rate(self, a, b, amt=1, kind='24h_avg'):
         a = a.upper()
         b = b.upper()
         if 'BTC' not in (a, b):
@@ -40,13 +40,13 @@ class BitcoinAverageTicker(Ticker):
                     self._fail(a, b)
 
                 res = res[b]
-                return float(res[self.kind]) * amt
+                return float(res[kind]) * amt
 
             if a not in res:
                 self._fail(a, b)
 
             res = res[a]
-            return (float(res[self.kind]) ** -1) * amt
+            return (float(res[kind]) ** -1) * amt
         except (KeyError, TypeError) as e:
             raise ValueError(str(e))
 

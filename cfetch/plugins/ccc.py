@@ -1,6 +1,6 @@
 ##
 ##  coinfetch-api-ccc - CryptoCoin Charts API plugin for coinfetch
-##  Copyright (C) 2015 Delwink, LLC
+##  Copyright (C) 2015-2016 Delwink, LLC
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU Affero General Public License as published by
@@ -18,11 +18,14 @@
 from cfetch import register_ticker, Ticker
 
 class CccTicker(Ticker):
-    def __init__(self, path, kind='price'):
-        super().__init__(path, kind)
+    def __init__(self, path):
+        super().__init__(path)
 
     def get_pair_data(self, response, pair=None):
         return response.json()
+
+    def get_rate(self, a, b, amt=1, kind='price'):
+        return super().get_rate(a, b, amt, kind)
 
 register_ticker('ccc', 'The CryptoCoin Charts ticker (built-in)',
                 CccTicker('http://api.cryptocoincharts.info/tradingPair/'))
