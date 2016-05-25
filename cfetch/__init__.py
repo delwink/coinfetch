@@ -56,6 +56,7 @@ class Ticker():
     #  @param a The first currency.
     #  @param b The second currency.
     #  @param amt The number quantity of 'a' currency.
+    #  @param kind The type of rate to calculate.
     #  @return The exchange rate between 'a' and 'b' currencies.
     def get_rate(self, a, b, amt=1, kind='avg'):
         try:
