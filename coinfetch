@@ -54,6 +54,8 @@ load_default_plugins()
 tickers = get_registered_tickers()
 tickers.sort()
 
+apis = [api for api, desc in tickers]
+
 class DefaultApiAction(Action):
     def __call__(self, parser, values, namespace, option_string):
         config['coinfetch']['api'] = namespace
@@ -77,14 +79,12 @@ class VersionAction(Action):
 
 cli = ArgumentParser(__title__)
 
-cli.add_argument('-a', '--api', default=default_api,
-                 choices=[api for api, desc in tickers],
+cli.add_argument('-a', '--api', default=default_api, choices=apis,
                  help='uses an API by name')
 cli.add_argument('-k', '--kind', help='specifies which kind of rate to get')
 cli.add_argument('-l', '--list-apis', action=ListAction,
                  help='list available APIs and exit', nargs=0)
-cli.add_argument('--set-default', action=DefaultApiAction,
-                 choices=[api for api, desc in tickers],
+cli.add_argument('--set-default', action=DefaultApiAction, choices=apis,
                  help='sets the default API and exits')
 cli.add_argument('-v', '--version', action=VersionAction,
                  help='show version information and exit', nargs=0)
