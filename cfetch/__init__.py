@@ -23,6 +23,12 @@ from requests import get
 
 __version__ = '5.2.0'
 
+class NoSuchPairException(Exception):
+    pass
+
+class NoSuchKindException(Exception):
+    pass
+
 ## A cryptocurrency exchange rate ticker.
 class Ticker():
     ## Constructor for this class.
@@ -47,9 +53,25 @@ class Ticker():
         else:
             raise TypeError('pair cannot be {}'.format(type(pair)))
 
-    def _get_single_rate(self, a, b, amt, power, kind):
+    ## Gets the exchange rate between two currencies raised to a power.
+    #  @param a The first currency.
+    #  @param b The second currency.
+    #  @param amt The number quantity of 'a' currency.
+    #  @param power The power to which the calculation will be raised.
+    #  @param kind The type of rate to calculate.
+    #  @return The exchange rate between 'a' and 'b' currencies raised to
+    # 'power'.
+    def get_rate_pow(self, a, b, amt, power, kind):
         r = get(self.path + self.get_pair(a, b))
-        res = self.get_pair_data(r, (a, b))
+
+        try:
+            res = self.get_pair_data(r, (a, b))
+        except KeyError as e:
+            raise NoSuchPairException(str(e))
+
+        if kind not in res:
+            raise NoSuchKindException(kind)
+
         return (float(res[kind]) ** power) * amt
 
     ## Calculates the exchange rate between two currencies.
@@ -60,12 +82,9 @@ class Ticker():
     #  @return The exchange rate between 'a' and 'b' currencies.
     def get_rate(self, a, b, amt=1, kind='avg'):
         try:
-            return self._get_single_rate(a, b, amt, 1, kind)
-        except (KeyError, TypeError):
-            try:
-                return self._get_single_rate(b, a, amt, -1, kind)
-            except (KeyError, TypeError) as e:
-                raise ValueError(str(e)) # currency pair not found
+            return self.get_rate_pow(a, b, amt, 1, kind)
+        except NoSuchPairException:
+            return self.get_rate_pow(b, a, amt, -1, kind)
 
 _INDEX = {
     'description': 0,

@@ -19,7 +19,8 @@
 from argparse import Action, ArgumentParser
 from configparser import ConfigParser
 from cfetch import __version__, get_ticker, get_registered_tickers
-from cfetch import load_default_plugins
+from cfetch import load_default_plugins, NoSuchKindException
+from cfetch import NoSuchPairException
 from os.path import expanduser, join, exists
 from os import makedirs
 
@@ -105,12 +106,10 @@ try:
 
     rate = ticker.get_rate(*rate_args)
     print(format(rate, '.8f'))
-except ValueError:
-    if args.kind:
-        print('The', args.kind, 'rate is not available with the', args.api,
-              'API.')
-        exit(10)
-
+except NoSuchKindException:
+    print('The', args.kind, 'rate is not available with the', args.api, 'API.')
+    exit(10)
+except NoSuchPairException:
     pair = '/'.join([args.src, args.dest])
     print('The pair', pair, 'was not found using the', args.api, 'API.')
     exit(11)

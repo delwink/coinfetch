@@ -15,7 +15,8 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-from cfetch import register_ticker, Ticker
+from cfetch import register_ticker, NoSuchKindException, NoSuchPairException
+from cfetch import Ticker
 from requests import get
 
 class BitcoinAverageTicker(Ticker):
@@ -28,7 +29,7 @@ class BitcoinAverageTicker(Ticker):
     def get_rate(self, a, b, amt=1, kind='24h_avg'):
         a = a.upper()
         b = b.upper()
-        if 'BTC' not in (a, b):
+        if 'BTC' not in (a, b) or 'USD' not in (a, b):
             self._fail(a, b)
 
         r = get(self.path)
@@ -47,11 +48,11 @@ class BitcoinAverageTicker(Ticker):
 
             res = res[a]
             return (float(res[kind]) ** -1) * amt
-        except (KeyError, TypeError) as e:
-            raise ValueError(str(e))
+        except KeyError as e:
+            raise NoSuchKindException(str(e))
 
     def _fail(self, a, b):
-        raise ValueError('{}/{}'.format(a, b))
+        raise NoSuchPairException('{}/{}'.format(a, b))
 
 register_ticker('ba', 'The BitcoinAverage ticker (built-in)',
                 BitcoinAverageTicker('https://api.bitcoinaverage.com/ticker/all'))

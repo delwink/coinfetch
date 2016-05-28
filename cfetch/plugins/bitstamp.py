@@ -15,7 +15,8 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-from cfetch import register_ticker, Ticker
+from cfetch import register_ticker, NoSuchKindException, NoSuchPairException
+from cfetch import Ticker
 from requests import get
 
 class BitstampTicker(Ticker):
@@ -29,14 +30,14 @@ class BitstampTicker(Ticker):
         r = get(self.path)
         res = self.get_pair_data(r)
         if kind not in res:
-            raise ValueError('Kind {} not available'.format(kind))
+            raise NoSuchKindException('Kind {} not available'.format(kind))
 
         if a == 'btc' and b == 'usd':
             return float(res[kind]) * amt
         elif a == 'usd' and b == 'btc':
             return (float(res[kind]) ** -1) * amt
         else:
-            raise ValueError('{}/{}'.format(a, b))
+            raise NoSuchPairException('{}/{}'.format(a, b))
 
 register_ticker('bs', 'The Bitstamp ticker (built-in)',
                 BitstampTicker('https://www.bitstamp.net/api/ticker/'))
