@@ -57,7 +57,6 @@ class CoinbaseTicker(Ticker):
                 headers={'CB-VERSION': '2017-09-19'})
 
         res = self.get_pair_data(r, (a, b))
-        print(r.text)
         if 'data' not in res:
             raise NoSuchPairException('{}/{}'.format(a, b))
 
