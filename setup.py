@@ -32,7 +32,7 @@ setup(
     author = 'Delwink, LLC',
     author_email = 'support@delwink.com',
     description = 'Cryptocurrency price converter',
-    license = 'AGPLv3',
+    license = 'COIL 0.5',
     keywords = 'coin fetch coinfetch ticker bitcoin cryptocurrency money',
-    url = 'http://delwink.com/software/coinfetch.html'
+    url = 'https://delwink.com/software/coinfetch.html'
 )
